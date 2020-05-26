@@ -35,9 +35,13 @@ public class ParkingLotManager {
 		slotMapping = new HashMap<>();
 	}
 
-	public void storeIncomingVehicle(VehicleRequestDto vechicleRequestDto) {
-		parkedVechicleService.storeIncomingVehicle(vechicleRequestDto);
-		manageSlotMapping(vechicleRequestDto);
+	public String storeIncomingVehicle(VehicleRequestDto vechicleRequestDto) {
+		if (manageSlotMapping(vechicleRequestDto)) {
+			parkedVechicleService.storeIncomingVehicle(vechicleRequestDto);
+			return "Parked";
+		} else {
+			return "No slot for parking";
+		}
 	}
 
 	public Long getCharges(Integer vehicleNumber) {
@@ -52,11 +56,14 @@ public class ParkingLotManager {
 		return slotService.isSlotAvaiable();
 	}
 
-	private void manageSlotMapping(VehicleRequestDto vechicleRequestDto) {
+	private boolean manageSlotMapping(VehicleRequestDto vechicleRequestDto) {
 		if (isSlotAvailable()) {
 			SlotDto freeSlot = slotService.getFreeSlot();
 			freeSlot.setOccupied(true);
 			slotMapping.put(freeSlot, vechicleRequestDto);
+			return true;
+		} else {
+			return false;
 		}
 	}
 

@@ -25,8 +25,8 @@ public class ParkingLotAPI {
 	private ParkingLotManager parkingLotManager;
 
 	@PostMapping(value = "/api/v1/parking-lot/vehicle")
-	public void storeIncomingVehicle(HttpServletRequest request, @RequestBody VehicleRequestDto vehicleRequestDto) {
-		parkingLotManager.storeIncomingVehicle(vehicleRequestDto);
+	public String storeIncomingVehicle(HttpServletRequest request, @RequestBody VehicleRequestDto vehicleRequestDto) {
+		return parkingLotManager.storeIncomingVehicle(vehicleRequestDto);
 	}
 
 	@GetMapping(value = "/api/v1/parking-lot/charges/{vehicleNumber}")
